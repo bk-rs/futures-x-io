@@ -1,0 +1,34 @@
+[package]
+name = "futures-x-io"
+version = "0.1.0"
+authors = ["vkill <vkill.net@gmail.com>"]
+edition = "2018"
+description = "Compatible with futures io and tokio io."
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/bk-rs/futures-x-io"
+homepage = "https://github.com/bk-rs/futures-x-io"
+documentation = "https://docs.rs/futures-x-io"
+keywords = []
+categories = ["asynchronous"]
+readme = "README.md"
+
+[features]
+futures_io = ["futures-io"]
+tokio_io = ["tokio"]
+
+futures_util_io = ["futures_io", "futures-util"]
+futures_lite_io = ["futures_io", "futures-lite"]
+tokio_io_util = ["tokio_io", "tokio/io-util"]
+
+[dependencies]
+cfg-if = { version = "0.1", default-features = false, features = [] }
+
+futures-io = { version = "0.3", default-features = false, features = ["std"], optional = true }
+futures-util = { version = "0.3", default-features = false, features = ["io"], optional = true }
+
+futures-lite = { version = "0.1", default-features = false, features = [], optional = true }
+
+tokio = { version = "0.2", default-features = false, features = [], optional = true }
+
+[dev-dependencies]
+futures-executor = { version = "0.3", default-features = false, features = ["default"] }
