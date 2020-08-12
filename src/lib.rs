@@ -25,13 +25,13 @@ cfg_if::cfg_if! {
 }
 
 cfg_if::cfg_if! {
-    if #[cfg(all(feature = "futures_util_io", not(feature = "futures_lite_io"), not(feature = "tokio_io_util")))] {
+    if #[cfg(all(feature = "futures_util_io", not(feature = "futures_lite_io"), not(feature = "tokio_io_util"), feature = "futures_io", not(feature = "tokio_io")))] {
         pub use futures_util::io::{AsyncBufReadExt, AsyncReadExt, AsyncSeekExt, AsyncWriteExt, BufReader};
         pub use futures_util::io::Cursor;
-    } else if #[cfg(all(not(feature = "futures_util_io"), feature = "futures_lite_io", not(feature = "tokio_io_util")))] {
+    } else if #[cfg(all(not(feature = "futures_util_io"), feature = "futures_lite_io", not(feature = "tokio_io_util"), feature = "futures_io", not(feature = "tokio_io")))] {
         pub use futures_lite::io::{AsyncBufReadExt, AsyncReadExt, AsyncSeekExt, AsyncWriteExt, BufReader};
         pub use futures_lite::io::Cursor;
-    } else if #[cfg(all(not(feature = "futures_util_io"), not(feature = "futures_lite_io"), feature = "tokio_io_util"))] {
+    } else if #[cfg(all(not(feature = "futures_util_io"), not(feature = "futures_lite_io"), feature = "tokio_io_util", not(feature = "futures_io"), feature = "tokio_io"))] {
         pub use tokio::io::{AsyncBufReadExt, AsyncReadExt, AsyncSeekExt, AsyncWriteExt, BufReader};
         pub use std::io::Cursor;
     }

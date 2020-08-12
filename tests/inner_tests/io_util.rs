@@ -1,7 +1,10 @@
 use std::io::{self, SeekFrom};
+use std::pin::Pin;
+use std::task::{Context, Poll};
 
 use futures_executor::block_on;
 
+use futures_x_io::AsyncRead;
 use futures_x_io::Cursor;
 use futures_x_io::{AsyncBufReadExt, AsyncReadExt, AsyncSeekExt, AsyncWriteExt, BufReader};
 
@@ -67,6 +70,35 @@ fn write() -> io::Result<()> {
         let n = cursor.write(b"foo").await?;
         assert_eq!(n, 3);
         assert_eq!(cursor.into_inner(), b"foo");
+
+        Ok(())
+    })
+}
+
+//
+//
+//
+struct Foo;
+
+impl AsyncRead for Foo {
+    fn poll_read(
+        self: Pin<&mut Self>,
+        _cx: &mut Context,
+        _buf: &mut [u8],
+    ) -> Poll<io::Result<usize>> {
+        Poll::Ready(Ok(0))
+    }
+}
+
+#[test]
+fn foo() -> io::Result<()> {
+    block_on(async {
+        let mut foo = Foo {};
+
+        let mut buf = vec![0u8; 3];
+        let n = foo.read(&mut buf).await?;
+        assert_eq!(n, 0);
+        assert_eq!(buf, b"\0\0\0");
 
         Ok(())
     })
