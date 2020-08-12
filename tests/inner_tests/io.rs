@@ -2,7 +2,6 @@ use std::io::{self, SeekFrom};
 use std::pin::Pin;
 use std::task::{Context, Poll};
 
-use futures_x_io::poll_close_or_shutdown;
 use futures_x_io::{AsyncBufRead, AsyncRead, AsyncSeek, AsyncWrite};
 
 struct Foo;
@@ -55,7 +54,15 @@ impl AsyncWrite for Foo {
         Poll::Ready(Ok(()))
     }
 
-    poll_close_or_shutdown!(Poll::Ready(Ok(())));
+    #[cfg(feature = "futures_io")]
+    fn poll_close(self: Pin<&mut Self>, _cx: &mut Context) -> Poll<io::Result<()>> {
+        Poll::Ready(Ok(()))
+    }
+
+    #[cfg(feature = "tokio_io")]
+    fn poll_shutdown(self: Pin<&mut Self>, _cx: &mut Context) -> Poll<io::Result<()>> {
+        Poll::Ready(Ok(()))
+    }
 }
 
 #[test]
