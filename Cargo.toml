@@ -26,7 +26,7 @@ cfg-if = { version = "0.1", default-features = false, features = [] }
 futures-io = { version = "0.3", default-features = false, features = ["std"], optional = true }
 futures-util = { version = "0.3", default-features = false, features = ["io"], optional = true }
 
-futures-lite = { version = "0.1", default-features = false, features = [], optional = true }
+futures-lite = { version = "0.1", default-features = false, features = ["std"], optional = true }
 
 tokio = { version = "0.2", default-features = false, features = [], optional = true }
 
