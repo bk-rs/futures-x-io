@@ -21,14 +21,14 @@ futures_lite_io = ["futures_io", "futures-lite"]
 tokio_io_util = ["tokio_io", "tokio/io-util"]
 
 [dependencies]
-cfg-if = { version = "0.1", default-features = false, features = [] }
+cfg-if = { version = "1.0", default-features = false, features = [] }
 
 futures-io = { version = "0.3", default-features = false, features = ["std"], optional = true }
 futures-util = { version = "0.3", default-features = false, features = ["io"], optional = true }
 
-futures-lite = { version = "0.1", default-features = false, features = ["std"], optional = true }
+futures-lite = { version = "1.11", default-features = false, features = ["std"], optional = true }
 
-tokio = { version = "0.2", default-features = false, features = [], optional = true }
+tokio = { version = "~0.2", default-features = false, features = [], optional = true }
 
 [dev-dependencies]
 futures-executor = { version = "0.3", default-features = false, features = ["default"] }
