@@ -47,7 +47,7 @@ fn read() -> io::Result<()> {
 }
 
 #[test]
-fn seed() -> io::Result<()> {
+fn seek() -> io::Result<()> {
     block_on(async {
         let mut cursor = Cursor::new(b"foo");
 
