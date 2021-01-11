@@ -10,6 +10,6 @@ cargo fmt --all -- --check
 ```
 
 ```
-╰─➤ cargo test-all-features --all 2>/dev/null | grep 'test only_' | grep ' ... ok' | wc -l
+╰─➤ cargo test-all-features 2>/dev/null | grep 'test only_' | grep ' ... ok' | wc -l
 51
 ```
