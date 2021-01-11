@@ -5,10 +5,11 @@
 ## Dev
 
 ```
-cargo clippy --all --all-features -- -D clippy::all && \
+cargo clippy --all-targets --all-features -- -D clippy::all && \
 cargo fmt --all -- --check
 ```
 
 ```
-cargo test-all-features --all
+╰─➤ cargo test-all-features --all 2>/dev/null | grep 'test only_' | wc -l
+51
 ```

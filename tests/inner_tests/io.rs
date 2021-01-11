@@ -15,12 +15,22 @@ impl AsyncBufRead for Foo {
 }
 
 impl AsyncRead for Foo {
+    #[cfg(any(feature = "futures_io", feature = "tokio02_io"))]
     fn poll_read(
         self: Pin<&mut Self>,
         _cx: &mut Context,
         _buf: &mut [u8],
     ) -> Poll<io::Result<usize>> {
         Poll::Ready(Ok(0))
+    }
+
+    #[cfg(feature = "tokio_io")]
+    fn poll_read(
+        self: Pin<&mut Self>,
+        _cx: &mut Context,
+        _buf: &mut tokio::io::ReadBuf,
+    ) -> Poll<io::Result<()>> {
+        Poll::Ready(Ok(()))
     }
 }
 
@@ -30,7 +40,7 @@ impl AsyncSeek for Foo {
         Poll::Ready(Ok(0))
     }
 
-    #[cfg(feature = "tokio_io")]
+    #[cfg(feature = "tokio02_io")]
     fn start_seek(
         self: Pin<&mut Self>,
         _cx: &mut Context,
@@ -40,6 +50,11 @@ impl AsyncSeek for Foo {
     }
 
     #[cfg(feature = "tokio_io")]
+    fn start_seek(self: Pin<&mut Self>, _position: SeekFrom) -> io::Result<()> {
+        Ok(())
+    }
+
+    #[cfg(any(feature = "tokio02_io", feature = "tokio_io"))]
     fn poll_complete(self: Pin<&mut Self>, _cx: &mut Context) -> Poll<io::Result<u64>> {
         Poll::Ready(Ok(0))
     }
@@ -59,7 +74,7 @@ impl AsyncWrite for Foo {
         Poll::Ready(Ok(()))
     }
 
-    #[cfg(feature = "tokio_io")]
+    #[cfg(any(feature = "tokio02_io", feature = "tokio_io"))]
     fn poll_shutdown(self: Pin<&mut Self>, _cx: &mut Context) -> Poll<io::Result<()>> {
         Poll::Ready(Ok(()))
     }
