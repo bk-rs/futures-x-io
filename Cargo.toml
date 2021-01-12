@@ -23,8 +23,6 @@ tokio02_io_util = ["tokio02_io", "tokio02/io-util"]
 tokio_io_util = ["tokio_io", "tokio/io-util"]
 
 [dependencies]
-cfg-if = { version = "1.0", default-features = false, features = [] }
-
 futures-io = { version = "0.3", default-features = false, features = ["std"], optional = true }
 futures-util = { version = "0.3", default-features = false, features = ["io"], optional = true }
 
