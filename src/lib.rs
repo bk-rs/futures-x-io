@@ -17,6 +17,12 @@ pub use tokio02::io::{AsyncBufRead, AsyncRead, AsyncSeek, AsyncWrite};
     not(feature = "tokio02_io"),
     feature = "tokio_io"
 ))]
+pub use tokio::io::ReadBuf;
+#[cfg(all(
+    not(feature = "futures_io"),
+    not(feature = "tokio02_io"),
+    feature = "tokio_io"
+))]
 pub use tokio::io::{AsyncBufRead, AsyncRead, AsyncSeek, AsyncWrite};
 
 //

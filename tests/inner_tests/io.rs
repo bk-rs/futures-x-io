@@ -28,7 +28,7 @@ impl AsyncRead for Foo {
     fn poll_read(
         self: Pin<&mut Self>,
         _cx: &mut Context,
-        _buf: &mut tokio::io::ReadBuf,
+        _buf: &mut futures_x_io::ReadBuf,
     ) -> Poll<io::Result<()>> {
         Poll::Ready(Ok(()))
     }
