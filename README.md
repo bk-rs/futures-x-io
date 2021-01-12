@@ -12,6 +12,6 @@ cargo fmt --all -- --check
 ```
 cargo build-all-features
 
-╰─➤ cargo test-all-features 2>/dev/null | grep 'test only_' | grep ' ... ok' | wc -l
+╰─➤ cargo test-all-features -- --nocapture 2>/dev/null | grep 'test only_' | grep ' ... ok' | wc -l
 51
 ```
