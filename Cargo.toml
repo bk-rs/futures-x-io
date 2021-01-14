@@ -13,6 +13,8 @@ categories = ["asynchronous"]
 readme = "README.md"
 
 [features]
+# default = ["futures_util_io"]
+
 futures_io = ["futures-io"]
 tokio02_io = ["tokio02"]
 tokio_io = ["tokio"]

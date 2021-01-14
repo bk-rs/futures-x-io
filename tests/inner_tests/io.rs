@@ -4,9 +4,9 @@ use std::task::{Context, Poll};
 
 use futures_x_io::{AsyncBufRead, AsyncRead, AsyncSeek, AsyncWrite};
 
-struct Foo;
+struct Stream;
 
-impl AsyncBufRead for Foo {
+impl AsyncBufRead for Stream {
     fn poll_fill_buf(self: Pin<&mut Self>, _cx: &mut Context) -> Poll<io::Result<&[u8]>> {
         Poll::Ready(Ok(b""))
     }
@@ -14,7 +14,7 @@ impl AsyncBufRead for Foo {
     fn consume(self: Pin<&mut Self>, _amt: usize) {}
 }
 
-impl AsyncRead for Foo {
+impl AsyncRead for Stream {
     #[cfg(any(feature = "futures_io", feature = "tokio02_io"))]
     fn poll_read(
         self: Pin<&mut Self>,
@@ -28,13 +28,13 @@ impl AsyncRead for Foo {
     fn poll_read(
         self: Pin<&mut Self>,
         _cx: &mut Context,
-        _buf: &mut futures_x_io::ReadBuf,
+        _buf: &mut futures_x_io::ext::ReadBuf,
     ) -> Poll<io::Result<()>> {
         Poll::Ready(Ok(()))
     }
 }
 
-impl AsyncSeek for Foo {
+impl AsyncSeek for Stream {
     #[cfg(feature = "futures_io")]
     fn poll_seek(self: Pin<&mut Self>, _cx: &mut Context, _pos: SeekFrom) -> Poll<io::Result<u64>> {
         Poll::Ready(Ok(0))
@@ -60,7 +60,7 @@ impl AsyncSeek for Foo {
     }
 }
 
-impl AsyncWrite for Foo {
+impl AsyncWrite for Stream {
     fn poll_write(self: Pin<&mut Self>, _cx: &mut Context, _buf: &[u8]) -> Poll<io::Result<usize>> {
         Poll::Ready(Ok(0))
     }
@@ -81,6 +81,6 @@ impl AsyncWrite for Foo {
 }
 
 #[test]
-fn foo() -> io::Result<()> {
+fn simple() -> io::Result<()> {
     Ok(())
 }

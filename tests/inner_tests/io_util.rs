@@ -78,9 +78,9 @@ fn write() -> io::Result<()> {
 //
 //
 //
-struct Foo;
+struct Stream;
 
-impl AsyncRead for Foo {
+impl AsyncRead for Stream {
     #[cfg(any(feature = "futures_io", feature = "tokio02_io"))]
     fn poll_read(
         self: Pin<&mut Self>,
@@ -94,19 +94,19 @@ impl AsyncRead for Foo {
     fn poll_read(
         self: Pin<&mut Self>,
         _cx: &mut Context,
-        _buf: &mut tokio::io::ReadBuf,
+        _buf: &mut futures_x_io::ext::ReadBuf,
     ) -> Poll<io::Result<()>> {
         Poll::Ready(Ok(()))
     }
 }
 
 #[test]
-fn foo() -> io::Result<()> {
+fn simple() -> io::Result<()> {
     block_on(async {
-        let mut foo = Foo {};
+        let mut s = Stream {};
 
         let mut buf = vec![0u8; 3];
-        let n = foo.read(&mut buf).await?;
+        let n = s.read(&mut buf).await?;
         assert_eq!(n, 0);
         assert_eq!(buf, b"\0\0\0");
 
